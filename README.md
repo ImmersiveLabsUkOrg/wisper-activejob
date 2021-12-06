@@ -1,4 +1,6 @@
-# Wisper::ActiveJob
+# Immersive Labs Wisper::ActiveJob fork
+
+**Note this is a fork, not the OG gem, to add support for per event ActiveJob classes**
 
 Provides [Wisper](https://github.com/krisleech/wisper) with asynchronous event
 publishing using
