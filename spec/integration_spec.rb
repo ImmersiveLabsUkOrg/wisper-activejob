@@ -33,7 +33,7 @@ RSpec.describe 'integration tests:' do
   end
 
   context 'when the subscriber is a plain old ruby class' do
-    it 'enqueues Wrapper ActiveJob with nil, event name and args array' do
+    it 'enqueues Wrapper ActiveJob with nil, event name, args array, and kwargs hash' do
       publisher.subscribe(subscriber, async: Wisper::ActiveJobBroadcaster.new)
 
       publisher.run
@@ -41,12 +41,12 @@ RSpec.describe 'integration tests:' do
       expect(adapter.enqueued_jobs.size).to eq 1
       job = adapter.enqueued_jobs.first
       expect(job['job_class']).to eq 'Wisper::ActiveJobBroadcaster::Wrapper'
-      expect(job['arguments']).to eq [nil, 'it_happened', ['hello, world']]
+      expect(job['arguments']).to eq [nil, 'it_happened', ['hello, world'], {}]
     end
   end
 
   context 'when the subscriber extends ActiveJob' do
-    it 'enqueues subscriber ActiveJob with event name and args array' do
+    it 'enqueues subscriber ActiveJob with event name, args array, and kwargs hash' do
       publisher.subscribe(DummyActiveJobSubscriber, async: Wisper::ActiveJobBroadcaster.new)
 
       publisher.run
@@ -54,7 +54,7 @@ RSpec.describe 'integration tests:' do
       expect(adapter.enqueued_jobs.size).to eq 1
       job = adapter.enqueued_jobs.first
       expect(job['job_class']).to eq 'DummyActiveJobSubscriber'
-      expect(job['arguments']).to eq ['it_happened', ['hello, world']]
+      expect(job['arguments']).to eq ['it_happened', ['hello, world'], {}]
     end
   end
 end

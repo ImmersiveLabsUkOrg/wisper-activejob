@@ -9,8 +9,8 @@ module Wisper
           "Please ensure your class has ActiveJob::Base in its ancestry (either directly or via e.g. ApplicationJob)")
       end
 
-      def perform(event_name, args)
-        self.class.public_send(event_name, *args)
+      def perform(event_name, args, kwargs = {})
+        self.class.public_send(event_name, *args, **kwargs.symbolize_keys)
       end
     end
   end
